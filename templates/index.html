@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigQuery Release Notes Hub</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="glow-orb" id="orb-1"></div>
+    <div class="glow-orb" id="orb-2"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <div>
+                    <h1 class="glow-text">BigQuery</h1>
+                    <p class="subtitle">Release Notes Tracker</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button id="btn-refresh" class="btn btn-primary" title="Refresh Release Notes">
+                    <i class="fa-solid fa-rotate-right spinner-icon"></i>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Search and Filter Bar -->
+        <section class="controls-panel card">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search updates, SQL, Gemini, indexes...">
+                <button id="search-clear" class="search-clear-btn" style="display: none;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <span class="filter-label">Filter Type:</span>
+                    <div class="filter-tags" id="type-filters">
+                        <button class="filter-tag active" data-type="all">All</button>
+                        <button class="filter-tag" data-type="Feature">Features</button>
+                        <button class="filter-tag" data-type="Change">Changes</button>
+                        <button class="filter-tag" data-type="Issue">Issues</button>
+                        <button class="filter-tag" data-type="Breaking">Breaking</button>
+                        <button class="filter-tag" data-type="Announcement">Announcements</button>
+                    </div>
+                </div>
+
+                <div class="sort-group">
+                    <span class="filter-label">Sort:</span>
+                    <select id="sort-select" class="custom-select">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <span id="notes-count">Loading release notes...</span>
+        </div>
+
+        <!-- Release Notes Container -->
+        <main class="notes-grid" id="notes-container">
+            <!-- Skeleton cards shown while loading -->
+            <div class="skeleton-card card"></div>
+            <div class="skeleton-card card"></div>
+            <div class="skeleton-card card"></div>
+        </main>
+    </div>
+
+    <!-- Tweet Modal / Composer -->
+    <div class="modal-backdrop" id="tweet-modal">
+        <div class="modal card">
+            <div class="modal-header">
+                <h2><i class="fa-brands fa-x-twitter"></i> Compose Tweet</h2>
+                <button class="modal-close" id="btn-close-modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="update-preview-box">
+                    <div class="preview-badge-row">
+                        <span id="modal-update-badge" class="badge">Feature</span>
+                        <span id="modal-update-date" class="date-text">June 15, 2026</span>
+                    </div>
+                    <p id="modal-update-excerpt"></p>
+                </div>
+                
+                <div class="composer-area">
+                    <label for="tweet-textarea">Customize your tweet:</label>
+                    <textarea id="tweet-textarea" rows="5" maxlength="280"></textarea>
+                    <div class="composer-footer">
+                        <span class="char-counter" id="char-counter">0 / 280</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-tweet">Cancel</button>
+                <button class="btn btn-tweet" id="btn-share-tweet">
+                    <i class="fa-brands fa-x-twitter"></i> Post to X
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-check-circle toast-icon"></i>
+        <span id="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
